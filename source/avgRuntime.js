@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 // 启动，加载游戏到全局变量data
 function avgMain() {
-    $.getJSON("game.json", function(json) {
+    $.getJSON("game.json", "", function(json) {
         data = json;
         if (data.info.runtime_version < avgGobal.version) {
             return alert("运行库版本过低");
@@ -59,8 +59,10 @@ function avgRun(action, value) {
             // 下一个对话
             // 将现在的对话进度+1
             avgGobal.nowDialog++;
+            console.log(now);
+            now = data["block"][avgGobal.nowBlock][avgGobal.nowDialog];
 
-            if (avgGobal.nowDialog > (now.length - 1)) {
+            if (!now || avgGobal.nowDialog > (now.length - 1)) {
                 alert("这个区块中已经没有可以显示的对话了");
                 return;
             }
@@ -74,16 +76,17 @@ function avgRun(action, value) {
 
             avgGobal.nowBlock = value;
             avgGobal.nowDialog = 0;
+            now = data["block"][value][0];
             console.log('toBlock:' + value);
             break;
     }
 
-    
+
     // 输出对话
     $(".avgplayer").append("<p>" + now["content"] + "</p>");
 
     // 动作判断，如果不存在action则为wait
-    if(!now["action"]){
+    if(!now["action"]) {
         now["action"] = "wait";
     }
 
@@ -138,4 +141,4 @@ function avgRun(action, value) {
 //错误处理
 window.onerror=function(message,url,line) { 
     alert("(/TДT)/抱歉，AVG Runtime 在读取游戏的时候遇到了错误！\n\n错误信息\nRuntimeVerson："+avgGobal.version+"\nMassage："+message+"\nUrl："+url+"\nLine："+line+"\n\n请检查Console获取详细信息"); 
-} 
+}
