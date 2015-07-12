@@ -1,21 +1,17 @@
-//DemoGame for AVGRuntime
-
 {
-    //游戏信息
     "info": {
         "name": "Game",
         "describe": "AVGRuntime示范游戏",
         "game_verson": 0.9,
         "runtime_verson": 0.9,
-        "first_block": "index",
+        "first_block": "index"
     },
-    //对话区块
+
     "block": {
-        //默认载入时候的对话区块
         "index":[
             {
                 "content": "Hello,AVGRuntime!",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "那么问题来了，请问你喜欢吃蘑菇吗？",
@@ -24,61 +20,62 @@
                     {
                         "content": "喜欢",
                         "action": "toblock",
-                        "block": "like",
+                        "block": "like"
                     },
                     {
                         "content": "不喜欢",
                         "action": "toblock",
-                        "block": "unlike",
-                    },
-                ],
-            },
+                        "block": "unlike"
+                    }
+                ]
+            }
         ],
-        //选择喜欢时候的对话区块
-        "like":[
+
+        "like": [
             {
                 "content": "你选择了喜欢蘑菇",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "诶嘿蘑菇好啊，看来我们是一类人",
-                "action": "wait",
-            },
+                "action": "wait"
+            }
         ],
+
         "unlike":[
             {
                 "content": "你选择了不喜欢蘑菇",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "纳尼！",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "竟然有人不喜欢蘑菇",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "不喜欢吃蘑菇的人有什么存在的价值？给我消失吧！消失吧消失吧！",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "（这里是特效）啪唰唰唰",
                 "action": "wait",
-                "effect": "akari",
+                "effect": "akari"
             },
             {
                 "content": "“阿卡林☆~”，哞菇消失了",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "于是，大家再也没有见到过哞菇，似乎有那么个人，一直在我们身边存在吧",
-                "action": "wait",
+                "action": "wait"
             },
             {
                 "content": "结局：哞菇の消失",
-                "action": "end",
-            },
-        ],
-    },
+                "action": "end"
+            }
+        ]
+    }
 }

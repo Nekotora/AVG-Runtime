@@ -29,8 +29,6 @@ function avgMain() {
         console.log(data);
 
         avgRun();
-    }, function() {
-        alert("加载游戏主文件失败");
     });
 };
 
