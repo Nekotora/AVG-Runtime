@@ -18,25 +18,25 @@ $(document).ready(function(){
 
 //启动，加载游戏到全局变量data
 function avgMain() {
-    $.getJSON('game.json', function(data) {
+    $.getJSON("game.json", function(data) {
         if (data.info.runtime_version < avgGobal.version) {
-            return alert('运行库版本过低');
+            return alert("运行库版本过低");
         }
 
-        var effectlayer = $('<div>');
-        effectlayer.addClass('effectlayer');
-        $('body').append(effectlayer);
+        var effectlayer = $("<div>");
+        effectlayer.addClass("effectlayer");
+        $("body").append(effectlayer);
 
         console.log(data);
 
         avgRun();
     }, function() {
-        alert('加载游戏主文件失败');
+        alert("加载游戏主文件失败");
     });
 };
 
 //主处理
-function avgRun(action,value){
+function avgRun(action, value) {
     //清空选项框
     $(".avgplayer .selector").remove();
     //获取当前游戏状态
