@@ -17,31 +17,22 @@ $(document).ready(function(){
 });
 
 //启动，加载游戏到全局变量data
-function avgMain(){
-    //载入主文件
-    data = $.ajax({url:"game.json",async:false});
-    //无法载入主文件时
-    if(data.status!=200){
-        alert("加载游戏主文件失败：" + data.status + data.statusText);
-        return;
-    }else{
-        data = data.responseText;
-    };
-    //解析json
-    data = eval("("+data+")");
-    //检查游戏运行环境
-    if(data.info.runtime_version < avgGobal.version){
-        alert("运行库版本过低");
-        return;
-    };
-    //输出特效层
-    var effectlayer = document.createElement("div");
-    effectlayer.setAttribute("class", "effectlayer");
-    $("body").append(effectlayer);
-    
-    console.log(data);
-    //开始游戏
-    avgRun();
+function avgMain() {
+    $.getJSON('game.json', function(data) {
+        if (data.info.runtime_version < avgGobal.version) {
+            return alert('运行库版本过低');
+        }
+
+        var effectlayer = $('<div>');
+        effectlayer.addClass('effectlayer');
+        $('body').append(effectlayer);
+
+        console.log(data);
+
+        avgRun();
+    }, function() {
+        alert('加载游戏主文件失败');
+    });
 };
 
 //主处理
