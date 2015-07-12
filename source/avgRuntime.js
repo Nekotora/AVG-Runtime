@@ -5,11 +5,12 @@
  */
 
 //全局变量
-avgGobal = {
-    version: "0.9",
-    nowBlock: "",
-    nowDialog: "",
-};
+var data,
+    avgGobal = {
+        version: "0.9",
+        nowBlock: "",
+        nowDialog: "",
+    };
 
 //页面载入时初始化框架
 $(document).ready(function(){
@@ -18,7 +19,8 @@ $(document).ready(function(){
 
 //启动，加载游戏到全局变量data
 function avgMain() {
-    $.getJSON("game.json", function(data) {
+    $.getJSON("game.json", function(json) {
+        data = json;
         if (data.info.runtime_version < avgGobal.version) {
             return alert("运行库版本过低");
         }
@@ -39,18 +41,21 @@ function avgMain() {
 function avgRun(action, value) {
     //清空选项框
     $(".avgplayer .selector").remove();
+
     //获取当前游戏状态
-    if(!avgGobal.nowBlock){//进度为空，新游戏
+    if(!avgGobal.nowBlock) {//进度为空，新游戏
         //获取首个block，不存在为index
         if(!data.info.first_block){
             data.info.first_block = "index";
             console.log("first_block不存在，默认index");
         }
+
         //初始化游戏
         avgGobal.nowBlock = data.info.first_block;
         avgGobal.nowDialog = 0;
         console.log("游戏已初始化");
     }
+
     if(action=="nextDialog"){//下一个对话
         //将现在的对话进度+1
         avgGobal.nowDialog++;
