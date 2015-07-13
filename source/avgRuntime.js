@@ -9,7 +9,7 @@ var data,
     avgGobal = {
         version: "0.9",
         nowBlock: "",
-        nowDialog: "",
+        nowDialog: ""
     };
 
 // 页面载入时初始化框架
@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 // 启动，加载游戏到全局变量data
 function avgMain() {
-    $.getJSON("game.json", "", function(json) {
+    /*$.getJSON("game.json", "", function(json) {
         data = json;
         if (data.info.runtime_version < avgGobal.version) {
             return alert("运行库版本过低");
@@ -29,6 +29,28 @@ function avgMain() {
         console.log(data);
 
         avgRun();
+    });*/
+    
+    $.ajax
+    ({  type: "get",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        url: "game.json",
+        success: function (json) {
+            data = json;
+            if (data.info.runtime_version < avgGobal.version) {
+                return alert("运行库版本过低");
+            }
+
+            $("body").append("<div class=\"effectlayer\">");
+            console.log(data);
+
+            avgRun();
+        },
+        timeout: 10000,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("载入游戏失败\n"+errorThrown);
+        }
     });
 };
 
@@ -53,7 +75,8 @@ function avgRun(action, value) {
     }
 
     var now = data["block"][avgGobal.nowBlock][avgGobal.nowDialog];
-
+    
+    //处理动作
     switch (action) {
         case "nextDialog":
             // 下一个对话
@@ -83,7 +106,7 @@ function avgRun(action, value) {
 
 
     // 输出对话
-    $(".avgplayer").append("<p>" + now["content"] + "</p>");
+    $(".avgplayer").append("<p id=\"ontype\">" + now["content"] + "</p>");
 
     // 动作判断，如果不存在action则为wait
     if(!now["action"]) {
@@ -91,11 +114,11 @@ function avgRun(action, value) {
     }
 
     // 输出选项容器
-    $(".avgplayer").append("<div class=\"selector\">");
+    $(".avgplayer p:last-child").append("<div class=\"selector\">");
 
     switch (now["action"]) {
         case "wait": // 输出选项-继续
-            $(".avgplayer .selector").append("<a class=\"opition\" href=\"javascript:;\" onclick=\"avgRun('nextDialog')\">...</a>");
+            $(".avgplayer .selector").append("<a class=\"opition\" href=\"javascript:;\" onclick=\"avgRun('nextDialog')\">>></a>");
             break;
         case "select": // 输出选项-分支
             //循环输出选项
@@ -137,6 +160,17 @@ function avgRun(action, value) {
     
     console.log(avgGobal);
 };
+
+function type(obj){
+    var obj = ".avgplayer #ontype";
+    var content = $(obj).text();
+    for(var i = 0; i < content.length+1; i++){
+        console.log(content.substr(0, i));
+        $(obj).text(content.substr(0, i));
+    }
+}
+
+
 
 //错误处理
 window.onerror=function(message,url,line) { 
