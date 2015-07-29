@@ -1,174 +1,209 @@
-/*
+/**
  * AVG Runtime
- * Made by NekoTora 2015-07
- * http://flag.moe/
+ *
+ * @author NekoTora <i@flag.moe>
+ * @author Rakuem Hayashi <i@fake.moe>
+ * @copyright 2015 NekoTora & Rakume
  */
 
 //全局变量
-var data,
-    avgGobal = {
-        version: "0.9",
-        nowBlock: "",
-        nowDialog: ""
+var __VERSION__ = 0.9,
+    avgRuntime = function(obj) {
+    this.configure(obj);
+    this.init();
+};
+
+avgRuntime.prototype.log = function(val, obj) {
+    console.log('[AvgRuntime/' + obj + '] ' + val + '\n' + (new Date).toString());
+}
+
+avgRuntime.prototype.configure = function(obj) {
+    this.log('加载配置', 'Configure');
+
+    this.version = __VERSION__;
+    this.game = {};
+
+    var tmp = {
+        "timeout": 10000,
+        "dataType": "json"
     };
 
-
-// 启动，加载游戏到全局变量data
-function avgMain(path) {
-    /*$.getJSON("game.json", "", function(json) {
-        data = json;
-        if (data.info.runtime_version < avgGobal.version) {
-            return alert("运行库版本过低");
+    for (config in obj) {
+        if (obj.hasOwnProperty(config)) {
+            tmp[config] = obj[config];
         }
+    }
 
-        $("body").append("<div class=\"effectlayer\">");
-        console.log(data);
+    this.config = tmp;
+    return this;
+}
 
-        avgRun();
-    });*/
-    
-    $.ajax
-    ({  type: "get",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        url: path,
-        success: function (json) {
-            data = json;
-            if (data.info.runtime_version < avgGobal.version) {
+avgRuntime.prototype.init = function() {
+    var that = this;
+
+    if (!this.config.dataFile) {
+        this.log('加载数据文件失败', 'Init');
+        return false;
+    }
+
+    $.ajax({
+        dataType: this.config.dataType,
+        url: this.config.dataFile,
+        timeout: this.config.timeout,
+        success: function (data) {
+            that.game.data = data;
+
+            if (data.info.runtime_version < that.version) {
+                that.log('运行库版本过低', 'Init');
                 return alert("运行库版本过低");
             }
 
+            that.log('数据加载成功', 'Init');
             $("body").append("<div class=\"effectlayer\">");
-            console.log(data);
-
-            avgRun();
+            that.run();
         },
-        timeout: 10000,
+
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("载入游戏失败\n"+textStatus+"\n"+errorThrown);
+            that.log('数据文件加载失败', 'Init');
+            console.log(textStatus + '\n' + errorThrown);
+            alert('载入游戏失败\n ErrorCode:' + errorThrown);
         }
     });
+}
+
+avgRuntime.prototype.run = function() {
+    var data = this.game.data;
+
+    if (!data.info.first_block) {
+        data.info.first_block = 'index';
+        this.log('不存在 `first_block`，默认取 `index`', 'Run');
+    }
+
+    this.log('游戏数据初始化完成', 'Run');
+
+    this.show(data.info.first_block, 0);
 };
 
-// 主处理
-function avgRun(action, value) {
+
+avgRuntime.prototype.show = function(block, dialog) {
     // 清空选项框
     $(".avgplayer .selector").remove();
 
-    // 获取当前游戏状态
-    if(!avgGobal.nowBlock) {
-        // 进度为空，新游戏
-        // 获取首个block，不存在为index
-        if (!data.info.first_block) {
-            data.info.first_block = "index";
-            console.log("first_block不存在，默认index");
-        }
+    var data = this.game.data,
+        that = data.block[block][dialog];
 
-        // 初始化游戏
-        avgGobal.nowBlock = data.info.first_block;
-        avgGobal.nowDialog = 0;
-        console.log("游戏已初始化");
-    }
+    this.game.block = block;
+    this.game.dialog = dialog;
 
-    var now = data["block"][avgGobal.nowBlock][avgGobal.nowDialog];
-    
-    //处理动作
-    switch (action) {
-        case "nextDialog":
-            // 下一个对话
-            // 将现在的对话进度+1
-            avgGobal.nowDialog++;
-            console.log(now);
-            now = data["block"][avgGobal.nowBlock][avgGobal.nowDialog];
+    // 显示对话
+    $('.avgplayer').append('<p id="ontype">' + that.content + '</p>');
 
-            if (!now || avgGobal.nowDialog > (now.length - 1)) {
-                alert("这个区块中已经没有可以显示的对话了");
-                return;
-            }
-            break;
-
-        case 'toBlock':
-            // 跳转到对话
-            if (!data["block"][avgGobal.nowBlock]) {
-                alert('不存在的Block');
-            }
-
-            avgGobal.nowBlock = value;
-            avgGobal.nowDialog = 0;
-            now = data["block"][value][0];
-            console.log('toBlock:' + value);
-            break;
-    }
-
-
-    // 输出对话
-    $(".avgplayer").append("<p id=\"ontype\">" + now["content"] + "</p>");
-
-    // 动作判断，如果不存在action则为wait
-    if(!now["action"]) {
-        now["action"] = "wait";
+    if (!that['action']) {
+        that['action'] = 'wait';
     }
 
     // 输出选项容器
     $(".avgplayer p:last-child").append("<div class=\"selector\">");
 
-    switch (now["action"]) {
-        case "wait": // 输出选项-继续
-            $(".avgplayer .selector").append("<a class=\"opition\" href=\"javascript:;\" onclick=\"avgRun('nextDialog')\">>></a>");
-            break;
-        case "select": // 输出选项-分支
-            //循环输出选项
-            for (var i = 0; i < now["selector"].length; i++) {
-                var opition = $('<a>');
-                opition.html(now["selector"][i]["content"]);
-                opition.addClass("opition"); 
-                opition.attr("href", "javascript:void(0)");
+    // 转动作
+    this.action(that);
 
-                //action为toblock时
-                if (now["selector"][i]["action"] == "toblock") {
-                    opition.attr("onclick", "avgRun('toBlock','" + now["selector"][i]["block"] + "')"); 
+    // 转特效
+    if (that['effect']) {
+        this.effect(that);
+    } else {
+        this.log('无特效运行', 'Show');
+    }
+
+    this.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
+}
+
+avgRuntime.prototype.action = function(obj) {
+    var that = this;
+    if (!obj) return;
+
+    switch (obj.action) {
+        // 动作 继续
+        case "wait":
+            var option = $(".avgplayer .selector").append('<a class="opition" href="javascript:;">>></a>');
+            option.click(function() {
+                var dialog = that.game.dialog + 1;
+
+                if (dialog > (that.game.data.block[that.game.block].length - 1) || !that.game.data.block[that.game.block][dialog]) {
+                    that.log('对话完了', 'Action');
+                    alert("对话完了");
+                    return;
                 }
 
-                $(".avgplayer .selector").append(opition);
-                console.log("here is selector");
+                that.show(that.game.block, dialog);
+                that.log('显示下一条对话', 'Action');
+            });
+            break;
+
+        // 动作 分支
+        case "select":
+            //循环输出选项
+            for (var i = 0; i < obj.selector.length; i++) {
+                var option = $('<a>');
+                option.html(obj.selector[i].content);
+                option.addClass('option'); 
+                option.attr('data-block', obj["selector"][i]["block"]);
+
+                //action为toblock时
+                if (obj.selector[i].action === 'toblock') {
+                    option.click(function() {
+                        var block = $(this).attr('data-block');
+
+                        if (!that.game.data.block[block]) {
+                            alert('不存在的 Block');
+                            that.log('Block 不存在', 'Action');
+                            return false;
+                        }
+
+                        // 跳转到对话
+                        that.show(block, 0);
+                        that.log('进入分支: ' + block);
+                    });
+                }
+
+                $(".avgplayer .selector").append(option);
             }
+
+            that.log('进入分支', 'Action');
             break;
     }
 
-    //输出特效
-    if (now["effect"]) {
-        console.log("effect on!");
-        switch (now["effect"]) {
-            case 'akari'://特效-阿卡林
-                console.log("effect akari！！!");
-                $(".effectlayer").css({
-                    "background":"rgba(255, 255, 255, .5)",
-                });
-                break;
-            
-            case 'dark'://特效-黑屏
-                $("*:not(.player)").css("background", "#000");
-                $("*:not(.player) .player").css({"color": "#fff", "zoom": "1.2"});
-                $("*:not(.player) .player a:hover").css("color", "#ff8484");
-                break;
-        }
-    }
-    
-    console.log(avgGobal);
-};
+    this.log('动作: ' + obj.action, 'Action');
+}
 
-function type(obj){
-    var obj = ".avgplayer #ontype";
-    var content = $(obj).text();
-    for(var i = 0; i < content.length+1; i++){
-        console.log(content.substr(0, i));
-        $(obj).text(content.substr(0, i));
+avgRuntime.prototype.effect = function(obj) {
+    if (!obj || !obj['effect']) return;
+
+    //输出特效
+    this.log('特效开启', 'Effect');
+
+    switch (obj["effect"]) {
+        // 阿卡林特效
+        case 'akari':
+            this.log('运行阿卡林特效', 'Effect');
+    
+            $(".effectlayer").css({
+                "background": "rgba(255, 255, 255, .5)"
+            });
+            break;
+
+        // 暗黑世界 特效
+        case 'dark':
+            this.log('运行暗黑世界特效', 'Effect');
+
+            $("*:not(.player)").css("background", "#000");
+            $("*:not(.player) .player").css({"color": "#fff", "zoom": "1.2"});
+            $("*:not(.player) .player a:hover").css("color", "#ff8484");
+            break;
     }
 }
 
-
-
 //错误处理
-window.onerror=function(message,url,line) { 
+window.onerror = function(message, url, line) { 
     alert("(/TДT)/抱歉，AVG Runtime 在读取游戏的时候遇到了错误！\n\n错误信息\nRuntimeVerson："+avgGobal.version+"\nMassage："+message+"\nUrl："+url+"\nLine："+line+"\n\n请检查Console获取详细信息"); 
 }
