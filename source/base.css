@@ -1,118 +1,157 @@
-/*
+/**
  * AVG Runtime
- * Made by NekoTora 2015-07
- * http://flag.moe/
+ *
+ * @author NekoTora <i@flag.moe>
+ * @author Rakuem Hayashi <i@fake.moe>
+ * @copyright 2015 NekoTora & Rakume
  */
 
-@charset "UTF-8";
+@charset 'UTF-8';
 
-
-*{
-	margin: 0;
-	padding: 0;
+*
+{
+    margin: 0;
+    padding: 0;
 }
 
-body{
-	color: #333;
-	font-size: 15px;
-	font-family: Ubuntu, "Helvetica Neue", Helvetica, "Nimbus Sans L", "Open Sans", "Roboto", "Segoe WP", "Segoe UI", arial, "Liberation Sans", freesans, clean, "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans CJK TC", "Source Han Sans TW", "Noto Sans CJK JP", "Source Han Sans JP", "Noto Sans CJK", "Source Han Sans", "Microsoft YaHei UI", "Microsoft YaHei", DengXian, "Wenquanyi Micro Hei", "ST Heiti", "Droid Sans Fallback", "Microsoft JhengHei", SimSun, sans-serif;
+body
+{
+    font-family: Ubuntu, 'Helvetica Neue', Helvetica, 'Nimbus Sans L', 'Open Sans', 'Roboto', 'Segoe WP', 'Segoe UI', arial, 'Liberation Sans', freesans, clean, 'Hiragino Sans GB', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Noto Sans CJK TC', 'Source Han Sans TW', 'Noto Sans CJK JP', 'Source Han Sans JP', 'Noto Sans CJK', 'Source Han Sans', 'Microsoft YaHei UI', 'Microsoft YaHei', DengXian, 'Wenquanyi Micro Hei', 'ST Heiti', 'Droid Sans Fallback', 'Microsoft JhengHei', SimSun, sans-serif;
+    font-size: 15px;
+
+    color: #333;
 }
 
-.clear:after{
-  content:"";
-  display:block;
-  height:0;
-  visibility:hidden;
-  clear:both;
+.clear:after
+{
+    display: block;
+    visibility: hidden;
+    clear: both;
+
+    height: 0;
+
+    content: '';
 }
 
-.container{
-	width: 1000px;
-	margin: 0 auto;
+.container
+{
+    width: 1000px;
+    margin: 0 auto;
 }
 
-a,a:hover,a:link,a:visited{
-	color: #6E5398;
-	text-decoration: none;
+a,
+a:hover,
+a:link,
+a:visited
+{
+    text-decoration: none;
+
+    color: #6e5398;
 }
 
 
-.header{
+.header
+{
     width: 100%;
+
     text-align: left;
+
     color: #cdbfe3;
     background-color: #6f5499;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#563d7c),to(#6f5499));
     background-image: -webkit-linear-gradient(top,#563d7c 0,#6f5499 100%);
-    background-image: -o-linear-gradient(top,#563d7c 0,#6f5499 100%);
-    background-image: linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+    background-image:      -o-linear-gradient(top,#563d7c 0,#6f5499 100%);
+    background-image:         linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
     background-repeat: repeat-x;
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
 }
 
-.header .title{
-    padding: 60px 0;
+.header .title
+{
     font-size: 24px;
+
+    padding: 60px 0;
 }
 
-.header .nav{
+.header .nav
+{
     height: 60px;
+
     border-top: 1px solid rgba(255,255,255,.1);
 }
 
-.header .nav a{
+.header .nav a
+{
+    font-size: 14px;
+    line-height: 60px;
+
     position: relative;
-    display: inline-block;
     top: 0;
+
+    display: inline-block;
+
     width: 150px;
     height: 100px;
-    line-height: 60px;
-    text-align: center;
-    font-size: 14px;
-    color: #cdbfe3;
+
     transition: all .3s ease;
+    text-align: center;
+
+    color: #cdbfe3;
 }
 
-.header .nav a:hover{
+.header .nav a:hover
+{
     top: -20px;
-    background: #fff;
+
     color: #000;
+    background: #fff;
 }
 
-.main{
+.main
+{
     padding: 40px 0;
 }
 
-.effectlayer{
+.effectlayer
+{
     position: fixed;
     top: 0;
-    left: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+    left: 0;
+
+    transition: all .3s ease;
     pointer-events: none;
+}
+
+.avgplayer *
+{
     transition: all .3s ease;
 }
 
-.avgplayer *{
-    transition: all .3s ease;
-}
-
-.avgplayer p{
+.avgplayer p
+{
     line-height: 2em;
 }
 
-.avgplayer .selector{
+.avgplayer .selector
+{
     display: inline-block;
+
     padding-left: .6em;
 }
 
-.avgplayer .selector a.opition
+.avgplayer .selector a.option
 {
     display: inline-block;
+
     margin-left: .35em;
-    color: #6E5398;
+
+    color: #6e5398;
 }
 
-.avgplayer .selector a.opition:hover{
-	text-decoration: underline;
+.avgplayer .selector a.option:hover
+{
+    text-decoration: underline;
 }
