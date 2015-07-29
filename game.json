@@ -2,8 +2,8 @@
     "info": {
         "name": "Game",
         "describe": "AVGRuntime示范游戏",
-        "game_verson": 0.9,
-        "runtime_verson": 0.9,
+        "game_version": 0.9,
+        "runtime_version": 0.9,
         "first_block": "index"
     },
 
@@ -24,6 +24,11 @@
                     },
                     {
                         "content": "不喜欢",
+                        "action": "toblock",
+                        "block": "unlike"
+                    },
+                    {
+                        "content": "我管你喜不喜欢呢，点这里生成flag",
                         "action": "toblock",
                         "block": "unlike"
                     }

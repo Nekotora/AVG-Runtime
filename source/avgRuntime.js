@@ -12,13 +12,9 @@ var data,
         nowDialog: ""
     };
 
-// 页面载入时初始化框架
-$(document).ready(function(){
-   avgMain();
-});
 
 // 启动，加载游戏到全局变量data
-function avgMain() {
+function avgMain(path) {
     /*$.getJSON("game.json", "", function(json) {
         data = json;
         if (data.info.runtime_version < avgGobal.version) {
@@ -35,7 +31,7 @@ function avgMain() {
     ({  type: "get",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        url: "game.json",
+        url: path,
         success: function (json) {
             data = json;
             if (data.info.runtime_version < avgGobal.version) {
@@ -49,7 +45,7 @@ function avgMain() {
         },
         timeout: 10000,
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("载入游戏失败\n"+errorThrown);
+            alert("载入游戏失败\n"+textStatus+"\n"+errorThrown);
         }
     });
 };

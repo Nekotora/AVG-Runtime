@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- HTA -->
-    <HTA:Application ID="oAVGRUNTIME"
-    Applicationname="AVG Runtime"
-    border="thin"
-    borderstyle="normal"
-    contextMenu="no"
-    maximizebutton="yes"
-    minimizebutton="yes"
-    showintaskbar="yes"
-    singleinstance="no"
-    sysmenu="yes"
-    windowstate="normal"
-    scroll="yes">
-    <!-- HTML -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -23,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="./source/base.css">
     <link rel="stylesheet" type="text/css" href="./source/demo.css">
     <script src="./source/jquery-1.9.1.min.js"></script>
+    <script src="./source/demo.js"></script>
     <script src="./source/avgRuntime.js"></script>
 </head>
     
@@ -35,16 +22,14 @@
             <h2>与文字的冒险，从这里开始！</h2>
         </div>
         <div class="nav container">
-            <a href="#">欢迎</a>
-            <a href="doc_game.html">制作游戏</a>
-            <a href="doc_runtime.html">框架开发</a>
-            <a href="doc_about.html">关于</a>
+            <a href="javascript:void(0);" onclick="load('welcome')">欢迎</a>
+            <a href="javascript:void(0);" onclick="load('game')">制作游戏</a>
+            <a href="javascript:void(0);" onclick="load('runtime')">框架开发</a>
+            <a href="javascript:void(0);" onclick="load('about')">关于</a>
         </div>
     </div>
-    <div class="main">
-        <div class="line container">
-            <div class="avgplayer"></div>
-        </div>
+    <div class="main" id="main">
+        <div class="line container">Loading...</div>
     </div>
 </body>
 </html>
