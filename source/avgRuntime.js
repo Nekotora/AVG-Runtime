@@ -88,36 +88,48 @@
 
 
     avgRuntime.prototype.show = function(block, dialog) {
-        // 清空选项框
-        $(".avgplayer .selector").remove();
-
         var data = this.game.data,
             that = data.block[block][dialog];
 
         this.game.block = block;
         this.game.dialog = dialog;
 
-        // 显示对话
-        $('.avgplayer').append('<p id="ontype">' + that.content + '</p>');
+        // 显示对话容器
+        $('.avgplayer').append('<p id="ontype"></p>');
 
-        if (!that['action']) {
-            that['action'] = 'wait';
-        }
+        // 打字机效果
+        var thisin = this;
+        var s = document.getElementById('ontype');
+        var i = 0;
+        timer=setInterval(function(){
+            s.innerHTML=that.content.substring(0,i)
+            i++;
+            //完成后执行
+            if(s.innerHTML==that.content){
+                clearInterval(timer);
+                $('.avgplayer p#ontype').attr('id','');
 
-        // 输出选项容器
-        $(".avgplayer p:last-child").append("<div class=\"selector\">");
+                //默认action操作
+                if (!that['action']) {
+                    that['action'] = 'wait';
+                }
+                
+                // 输出选项容器
+                $(".avgplayer p:last-child").append("<div class=\"selector\" style=\"display:none\">");
 
-        // 转动作
-        this.action(that);
+                // 转动作
+                thisin.action(that);
 
-        // 转特效
-        if (that['effect']) {
-            this.effect(that);
-        } else {
-            this.log('无特效运行', 'Show');
-        }
+                // 转特效
+                if (that['effect']) {
+                    thisin.effect(that);
+                } else {
+                    thisin.log('无特效运行', 'Show');
+                }
 
-        this.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
+                thisin.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
+            };
+        },35);
     }
 
     avgRuntime.prototype.action = function(obj) {
@@ -127,13 +139,15 @@
         switch (obj.action) {
             // 动作 继续
             case "wait":
-                var option = $(".avgplayer .selector").append('<a class="opition" href="javascript:;">>></a>');
+                var option = $(".avgplayer .selector").append('<a class="opition" href="javascript:;">>></a>').fadeIn("slow");
                 option.click(function() {
                     var dialog = that.game.dialog + 1;
+                    // 清空选项框
+                    $(".avgplayer .selector").remove();
 
                     if (dialog > (that.game.data.block[that.game.block].length - 1) || !that.game.data.block[that.game.block][dialog]) {
-                        that.log('对话完了', 'Action');
-                        alert("对话完了");
+                        that.log('对话结束，结尾未封闭。', 'Action');
+                        alert("对话结束，结尾未封闭。");
                         return;
                     }
 
@@ -154,6 +168,9 @@
                     //action为toblock时
                     if (obj.selector[i].action === 'toblock') {
                         option.click(function() {
+                            // 清空选项框
+                            $(".avgplayer .selector").remove();
+
                             var block = $(this).attr('data-block');
 
                             if (!that.game.data.block[block]) {
@@ -168,7 +185,7 @@
                         });
                     }
 
-                    $(".avgplayer .selector").append(option);
+                    $(".avgplayer .selector").append(option).fadeIn("slow");
                 }
 
                 that.log('进入分支', 'Action');

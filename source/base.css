@@ -125,10 +125,6 @@ a:visited
     pointer-events: none;
 }
 
-.avgplayer *
-{
-    transition: all .3s ease;
-}
 
 .avgplayer p
 {
@@ -146,7 +142,7 @@ a:visited
 {
     display: inline-block;
 
-    margin-left: .35em;
+    margin-left: .5em;
 
     color: #6e5398;
 }
