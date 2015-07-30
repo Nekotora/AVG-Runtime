@@ -11,7 +11,7 @@
         "index":[
             {
                 "content": "Hello,AVGRuntime!",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "那么问题来了，请问你喜欢吃蘑菇吗？",
@@ -39,43 +39,43 @@
         "like": [
             {
                 "content": "你选择了喜欢蘑菇",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "诶嘿蘑菇好啊，看来我们是一类人",
-                "action": "wait"
+                "action": "next"
             }
         ],
 
         "unlike":[
             {
                 "content": "你选择了不喜欢蘑菇",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "纳尼！",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "竟然有人不喜欢蘑菇",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "不喜欢吃蘑菇的人有什么存在的价值？给我消失吧！消失吧消失吧！",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "（这里是特效）啪唰唰唰",
-                "action": "wait",
+                "action": "next",
                 "effect": "akari"
             },
             {
                 "content": "“阿卡林☆~”，哞菇消失了",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "于是，大家再也没有见到过哞菇，似乎有那么个人，一直在我们身边存在吧",
-                "action": "wait"
+                "action": "next"
             },
             {
                 "content": "结局：哞菇の消失",
