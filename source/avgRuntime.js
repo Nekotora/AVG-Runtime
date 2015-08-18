@@ -8,7 +8,8 @@
 
 // 全局变量
 ;(function($) {
-    var __VERSION__ = 0.9;
+    var __VERSION__ = 0.9,
+        logs = [];
 
     var avgRuntime = function(obj) {
         this.configure(obj);
@@ -16,7 +17,16 @@
     };
 
     avgRuntime.prototype.log = function(val, obj) {
-        console.log('[AvgRuntime/' + obj + '] ' + val + '\n' + (new Date).toString());
+        log = '[AvgRuntime/' + obj + '] ' + val + '\n' + (new Date).toString();
+
+        logs.push(log);
+        console.log(log);
+    }
+
+    avgRuntime.prototype.showLog = function() {
+        console.log(logs);
+
+        return logs;
     }
 
     avgRuntime.prototype.configure = function(obj) {
@@ -98,16 +108,17 @@
         $('.avgplayer').append('<p id="ontype"></p>');
 
         // 打字机效果
-        var thisin = this;
+        var that = this;
         var s = document.getElementById('ontype');
         var i = 0;
-        timer=setInterval(function(){
-            s.innerHTML=that.content.substring(0,i)
+        timer = setInterval(function() {
+            s.innerHTML = that.content.substring(0, i);
             i++;
+
             //完成后执行
-            if(s.innerHTML==that.content){
+            if (s.innerHTML == that.content) {
                 clearInterval(timer);
-                $('.avgplayer p#ontype').attr('id','');
+                $('.avgplayer p#ontype').attr('id', '');
 
                 //默认action操作
                 if (!that['action']) {
@@ -118,16 +129,16 @@
                 $('.avgplayer p:last-child').append('<div class="selector" style="display:none">');
 
                 // 转动作
-                thisin.action(that);
+                that.action(that);
 
                 // 转特效
                 if (that['effect']) {
-                    thisin.effect(that);
+                    that.effect(that);
                 } else {
-                    thisin.log('无特效运行', 'Show');
+                    that.log('无特效运行', 'Show');
                 }
 
-                thisin.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
+                that.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
             };
         },35);
     }
