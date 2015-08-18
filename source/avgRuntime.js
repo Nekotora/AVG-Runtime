@@ -26,8 +26,8 @@
         this.game = {};
 
         var tmp = {
-            "timeout": 10000,
-            "dataType": "json"
+            timeout: 10000,
+            dataType: 'json'
         };
 
         for (config in obj) {
@@ -57,11 +57,11 @@
 
                 if (data.info.runtime_version < that.version) {
                     that.log('运行库版本过低', 'Init');
-                    return alert("运行库版本过低");
+                    return alert('运行库版本过低');
                 }
 
                 that.log('数据加载成功', 'Init');
-                $("body").append("<div class=\"effectlayer\">");
+                $('body').append('<div class="effectlayer">');
                 that.run();
             },
 
@@ -113,9 +113,9 @@
                 if (!that['action']) {
                     that['action'] = 'wait';
                 }
-                
+
                 // 输出选项容器
-                $(".avgplayer p:last-child").append("<div class=\"selector\" style=\"display:none\">");
+                $('.avgplayer p:last-child').append('<div class="selector" style="display:none">');
 
                 // 转动作
                 thisin.action(that);
@@ -138,16 +138,16 @@
 
         switch (obj.action) {
             // 动作 继续
-            case "wait":
-                var option = $(".avgplayer .selector").append('<a class="opition" href="javascript:;">>></a>').fadeIn("slow");
+            case 'wait':
+                var option = $('.avgplayer .selector').append('<a class="opition" href="javascript:;">>></a>').fadeIn('slow');
                 option.click(function() {
                     var dialog = that.game.dialog + 1;
                     // 清空选项框
-                    $(".avgplayer .selector").remove();
+                    $('.avgplayer .selector').remove();
 
                     if (dialog > (that.game.data.block[that.game.block].length - 1) || !that.game.data.block[that.game.block][dialog]) {
                         that.log('对话结束，结尾未封闭。', 'Action');
-                        alert("对话结束，结尾未封闭。");
+                        alert('对话结束，结尾未封闭。');
                         return;
                     }
 
@@ -157,19 +157,18 @@
                 break;
 
             // 动作 分支
-            case "select":
+            case 'select':
                 //循环输出选项
                 for (var i = 0; i < obj.selector.length; i++) {
-                    var option = $('<a>');
+                    var option = $('<a class="option">');
                     option.html(obj.selector[i].content);
-                    option.addClass('option'); 
-                    option.attr('data-block', obj["selector"][i]["block"]);
+                    option.attr('data-block', obj['selector'][i]['block']);
 
                     //action为toblock时
                     if (obj.selector[i].action === 'toblock') {
                         option.click(function() {
                             // 清空选项框
-                            $(".avgplayer .selector").remove();
+                            $('avgplayer .selector').remove();
 
                             var block = $(this).attr('data-block');
 
@@ -185,7 +184,7 @@
                         });
                     }
 
-                    $(".avgplayer .selector").append(option).fadeIn("slow");
+                    $('.avgplayer .selector').append(option).fadeIn('slow');
                 }
 
                 that.log('进入分支', 'Action');
@@ -201,23 +200,23 @@
         //输出特效
         this.log('特效开启', 'Effect');
 
-        switch (obj["effect"]) {
+        switch (obj['effect']) {
             // 阿卡林特效
             case 'akari':
                 this.log('运行阿卡林特效', 'Effect');
-        
-                $(".effectlayer").css({
-                    "background": "rgba(255, 255, 255, .5)"
+
+                $('.effectlayer').css({
+                    'background': 'rgba(255, 255, 255, .5)'
                 });
                 break;
 
-            // 暗黑世界 特效
+            // 暗黑世界特效
             case 'dark':
                 this.log('运行暗黑世界特效', 'Effect');
 
-                $("*:not(.player)").css("background", "#000");
-                $("*:not(.player) .player").css({"color": "#fff", "zoom": "1.2"});
-                $("*:not(.player) .player a:hover").css("color", "#ff8484");
+                $('*:not(.player)').css('background', '#000');
+                $('*:not(.player) .player').css({'color': '#fff', 'zoom': '1.2'});
+                $('*:not(.player) .player a:hover').css('color','#ff8484');
                 break;
         }
     }
