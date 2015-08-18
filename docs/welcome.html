@@ -1,5 +1,11 @@
 <div class="line container">
     <div class="avgplayer">
-        <script>avgMain("game.json");</script>
+        <script>
+	        $(document).ready(function(){
+	            $.avgRuntime({
+	                "dataFile": "./game.json"
+	            })
+	        });
+        </script>
     </div>
 </div> 
