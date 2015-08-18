@@ -111,7 +111,7 @@
 
                 //默认action操作
                 if (!that['action']) {
-                    that['action'] = 'next';
+                    that['action'] = 'wait';
                 }
                 
                 // 输出选项容器
@@ -138,7 +138,7 @@
 
         switch (obj.action) {
             // 动作 继续
-            case "next":
+            case "wait":
                 var option = $(".avgplayer .selector").append('<a class="opition" href="javascript:;">>></a>').fadeIn("slow");
                 option.click(function() {
                     var dialog = that.game.dialog + 1;
