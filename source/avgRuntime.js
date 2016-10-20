@@ -71,7 +71,7 @@
                 }
 
                 that.log('数据加载成功', 'Init');
-                $('body').append('<div class="effectlayer">');
+                $('body').append('<div class="effectlayer"></div>');
                 that.run();
             },
 
@@ -108,7 +108,7 @@
         $('.avgplayer').append('<p id="ontype"></p>');
 
         // 打字机效果
-        var that = this;
+        var _this = this;
         var s = document.getElementById('ontype');
         var i = 0;
         timer = setInterval(function() {
@@ -126,19 +126,19 @@
                 }
 
                 // 输出选项容器
-                $('.avgplayer p:last-child').append('<div class="selector" style="display:none">');
+                $('.avgplayer p:last-child').append('<div class="selector" style="display:none"></div>');
 
                 // 转动作
-                that.action(that);
+                _this.action(that);
 
                 // 转特效
                 if (that['effect']) {
-                    that.effect(that);
+                    _this.effect(that);
                 } else {
-                    that.log('无特效运行', 'Show');
+                    _this.log('无特效运行', 'Show');
                 }
 
-                that.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
+                _this.log('Block `' + block + '`, Dialog `' + dialog + '` 的对话已输出', 'Show');
             };
         },35);
     }

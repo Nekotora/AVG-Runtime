@@ -44,6 +44,10 @@
             {
                 "content": "诶嘿蘑菇好啊，看来我们是一类人",
                 "action": "wait"
+            },
+            {
+                "content": "结局：（然而并没有结局）",
+                "action": "end"
             }
         ],
 
